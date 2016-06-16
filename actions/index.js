@@ -2,7 +2,7 @@ import * as types from '../constants/DateFilter'
 import axios from 'axios'
 
 export const fetchData = () => (dispatch) => {
-	axios.get('http://localhost/project/server.php/dashboard/data')
+	axios.get('http://localhost/Laravel-Project/server.php/dashboard/data')
 		.then((response) => {
 			dispatch({
 				type: 'FETCH_DONE',
