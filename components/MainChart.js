@@ -113,7 +113,7 @@ class MainChart extends Component {
 				min: 0,
 				tick: {
 					format: function(x) {
-						if(chartName=='Earnings'){
+						if(chartName=='earnings'){
 							return d3.format("$s,")(x)
 						}
 						else {return d3.format("s,")(x)}
@@ -130,7 +130,7 @@ class MainChart extends Component {
             	show: true,
 				tick: {
 					format: function(x) {
-						if(chartName=='Earnings'){
+						if(chartName=='earnings'){
 							return d3.format("$s,")(x)
 						}
 						else {
@@ -144,7 +144,7 @@ class MainChart extends Component {
 		const tooltip = {
 			format: {
     			value: function (value, ratio, id, index) {
-					if(chartName=='Earnings'){
+					if(chartName=='earnings'){
 						return d3.format("$,.2fs")(value)
 					}
 					else {
