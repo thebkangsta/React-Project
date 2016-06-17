@@ -12,7 +12,8 @@ import Analytics from './pages/Analytics'
 import Stats from './pages/Stats'
 
 require('react-datepicker/dist/react-datepicker.css');
-require('./public/main.css')
+require('./public/main.css');
+require('./public/c3.min.css');
 
 const store = configureStore();
 const history = syncHistoryWithStore(useRouterHistory(createHashHistory)({queryKey: false}), store);

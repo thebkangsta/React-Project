@@ -14,7 +14,7 @@ export const fetchData = () => (dispatch) => {
 				message: response.statusText,
 				status: "error"
 			})
-  		});
+		});
 }
 
 export function changeChart(chart) {

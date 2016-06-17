@@ -301,9 +301,12 @@ const getVisibleData = createSelector(
 			if(moment(item.date).isSameOrAfter(moment(filters.startDate)) && moment(item.date).isSameOrBefore(moment(filters.endDate)))
 				return true;
 		})
+
 		var filteredData = $.map(filteredData, function(n,i){
-			return [[ moment(n.date).format('MM-DD-YYYY'), Number(n[filters.chartSelector]) ]];
+			return {date: moment(n.date).format('YYYY-MM-DD'), chart: Number(n[filters.chartSelector]) };
 		});
+
+		console.log(filteredData)
 		var sum = 0;
 		var date;
 		var parts;
