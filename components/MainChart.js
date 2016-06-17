@@ -7,26 +7,24 @@ import { Alert } from 'react-bootstrap'
 import Bootstrap from 'bootstrap/dist/css/bootstrap.css'
 import moment from 'moment'
 
-const options = {
-	backgroundColor: 'none',
-	chartArea: {
-		left: 100,
-		top: 120,
-		right: 50,
-		width: '90%'
-	},
-	legend: 'none',
-	height: 500,
-	pointSize: 5,
-	pointShape: 'circle'
-};
+// const options = {
+// 	backgroundColor: 'none',
+// 	chartArea: {
+// 		left: 100,
+// 		top: 120,
+// 		right: 50,
+// 		width: '90%'
+// 	},
+// 	legend: 'none',
+// 	height: 500,
+// 	pointSize: 5,
+// 	pointShape: 'circle'
+// };
 
 class MainChart extends Component {
 	render() {
 		var chartname;
 		var filteredData = this.props.filteredData;
-		var data;
-		var axis;
 
 		if(this.props.chartType.indexOf("total_")===0) {
 	        chartname = this.props.chartType.split("total_").pop();
@@ -35,19 +33,31 @@ class MainChart extends Component {
 	    }
 	    chartname = chartname.charAt(0).toUpperCase() + chartname.slice(1);
 
-		// filteredData = JSON.stringify(filteredData);
-
-		// console.log("Data from MainChart", filteredData)
-		data = {
+		var data = {
+			names: {
+				value: chartname,
+			},
 			json: filteredData,
 			keys: {
             	x: 'date',
-				value: ['chart'],
-			}
-		},
-		axis = {
+				value: ['value'],
+			},
+			size: {
+				height: 10,
+				width: 200,
+			},
+
+		};
+		var padding = {
+			left: 60,
+			right: 20,
+		};
+		const point = {
+			r: 2.5,
+		};
+		var axis = {
         	x: {
-				label: chartname,
+				label: 'Date',
             	type: 'timeseries',
 				tick: {
     				format: function (x) {
@@ -56,12 +66,20 @@ class MainChart extends Component {
     			}
         	},
 			y: {
-    			label: "Date"
-			}
+    			label: chartname,
+				tick: {
+					format: function(x) {
+						if(chartname=='Earnings'){
+							return d3.format("$,")(x)
+						}
+						else {return d3.format(",")(x)}
+					}
+				}
+			},
     	}
 
 		return (
-			<C3Chart data={data} axis={axis} />
+			<C3Chart data={data} axis={axis} padding={padding} point={point} />
 		)
 
 		// // RENDER EMPTY CHART

@@ -72,7 +72,7 @@ export default function filter(state = initialState, action) {
         }
 
 		case CHANGE_FROM_PARAMS:
-		console.log("UPDATE FROM PARAMS", action)
+		// console.log("UPDATE FROM PARAMS", action)
 		// console.log("ACTION INFO", action.params.chartSelector)
 		// console.log("Original State", state)
 		// let newstate = state

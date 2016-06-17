@@ -80,8 +80,11 @@ body {
 }
 
 #mainchart{
-    background-color: white;
 	height: 100%;
+}
+
+.c3-line {
+    stroke-width: 5px;
 }
 
 .charttop {
@@ -129,6 +132,7 @@ body {
 .mainchartcontainer {
     float: left;
     width: 69%;
+	background-color: white;
 }
 
 .topofmainchart {
@@ -136,6 +140,7 @@ body {
     position: relative;
     padding-left: 15px;
     bottom: -15px;
+	height: 80px;
 }
 
 select#chartselector{

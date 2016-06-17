@@ -15,9 +15,9 @@ var text;
 
 class DataFilter extends Component{
 	shouldIUpdateThe(oldProps, newProps) {
-		console.log("shouldIUpdateThe")
-		console.log("Old Props", oldProps)
-		console.log("New Props", newProps)
+		// console.log("shouldIUpdateThe")
+		// console.log("Old Props", oldProps)
+		// console.log("New Props", newProps)
 
 		if(oldProps.params!=newProps.params) {
 			var startAfterEnd = false;
@@ -25,7 +25,7 @@ class DataFilter extends Component{
 			var startDate = newProps.params.startDate;
 			var endDate = newProps.params.endDate;
 
-			console.log(moment(newProps.fetchedData[0].date).format('MM-DD-YYYY'))
+			// console.log(moment(newProps.fetchedData[0].date).format('MM-DD-YYYY'))
 
 			if(oldProps.params.endDate!=endDate) {
 				console.log("We are changing endDate")
@@ -40,7 +40,7 @@ class DataFilter extends Component{
 				}
 			}
 			if(oldProps.params.startDate!=startDate) {
-				console.log("We are changing startDate")
+				// console.log("We are changing startDate")
 				if(moment(startDate).isSameOrAfter(moment())) {
 					startDate = moment().format('MM-DD-YYYY');
 				}
@@ -296,17 +296,16 @@ class DataFilter extends Component{
 
 const getVisibleData = createSelector(
 	[(state) => state.fetchedData, (state) => state], (data, filters) => {
-		if (!data) return []
+		if (!data.length) return []
 	    var filteredData = data.filter(item => {
 			if(moment(item.date).isSameOrAfter(moment(filters.startDate)) && moment(item.date).isSameOrBefore(moment(filters.endDate)))
 				return true;
 		})
 
 		var filteredData = $.map(filteredData, function(n,i){
-			return {date: moment(n.date).format('YYYY-MM-DD'), chart: Number(n[filters.chartSelector]) };
+			return {date: moment(n.date).format('YYYY-MM-DD'), value: Number(n[filters.chartSelector]) };
 		});
 
-		console.log(filteredData)
 		var sum = 0;
 		var date;
 		var parts;
@@ -327,12 +326,12 @@ const getVisibleData = createSelector(
 
 		if(filters.chartSelector.indexOf("total_")===0) {
 	        chartname = filters.chartSelector.split("total_").pop();
-	        chartname = "total " + chartname + " as of " + filteredData[filteredData.length-1][0];
-			sum = filteredData[filteredData.length-1][1];
+	        chartname = "total " + chartname + " as of " + filteredData[filteredData.length-1].date;
+			sum = filteredData[filteredData.length-1].value;
 	    }
 		else{
 			for(var i = 0, len = filteredData.length; i < len; i++) {
-		    	sum += filteredData[i][1];
+		    	sum += filteredData[i].value;
 			}
 			chartname = filters.chartSelector;
 		}
