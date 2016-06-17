@@ -10,10 +10,6 @@ var ChartSelector = React.createClass ({
 						<option value="subscribers">Subscribers</option>
 						<option value="videos">Videos</option>
 						<option value="earnings">Earnings</option>
-						<option value="total_views">Total Views</option>
-						<option value="total_subscribers" >Total Subscribers</option>
-						<option value="total_videos">Total Videos</option>
-						<option value="total_earnings">Total Earnings</option>
 					</select>
 				</form>
 			</div>

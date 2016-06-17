@@ -23,39 +23,79 @@ import moment from 'moment'
 
 class MainChart extends Component {
 	render() {
-		var chartname;
+		if(!this.props.filteredData.length){
+			return null
+		}
+		var chartName = this.props.chartType;
+		var chartNameTotal = "total_"+this.props.chartType;
 		var filteredData = this.props.filteredData;
 
-		if(this.props.chartType.indexOf("total_")===0) {
-	        chartname = this.props.chartType.split("total_").pop();
-	    } else {
-	        chartname = this.props.chartType;
-	    }
-	    chartname = chartname.charAt(0).toUpperCase() + chartname.slice(1);
-
-		var data = {
+		const data = {
 			names: {
-				value: chartname,
+				views: 'Views',
+				subscribers: 'Subscribers',
+				videos: 'Videos',
+				earnings: 'Earnings',
+				total_views: 'Total Views',
+				total_subscribers: 'Total Subscribers',
+				total_videos: 'Total Videos',
+				total_earnings: 'Total Earnings',
+
 			},
 			json: filteredData,
 			keys: {
             	x: 'date',
-				value: ['value'],
+				value: [this.props.chartType, chartNameTotal],
+
+			},
+			order: 'asc',
+			colors: {
+				total_views: '#86c5ef',
+				total_subscribers: '#86c5ef',
+				total_videos: '#86c5ef',
+				total_earnings: '#86c5ef',
+
 			},
 			size: {
 				height: 10,
 				width: 200,
 			},
+			axes: {
+				views: 'y',
+				subscribers: 'y',
+				videos: 'y',
+				earnings: 'y',
+				total_views: 'y2',
+				total_subscribers: 'y2',
+				total_videos: 'y2',
+				total_earnings: 'y2',
+			},
+			types: {
+				views: 'spline',
+				subscribers: 'spline',
+				videos: 'spline',
+				earnings: 'spline',
+            	total_views: 'bar',
+				total_subscribers: 'bar',
+				total_videos: 'bar',
+				total_earnings: 'bar',
+			},
+        }
 
-		};
-		var padding = {
-			left: 60,
-			right: 20,
-		};
+		const zoom = {
+			enabled: true,
+		}
+
+		const padding = {
+			left: 50,
+			right: 50,
+		}
+
 		const point = {
 			r: 2.5,
-		};
-		var axis = {
+		}
+
+		const axis = {
         	x: {
 				label: 'Date',
             	type: 'timeseries',
@@ -66,20 +106,62 @@ class MainChart extends Component {
     			}
         	},
 			y: {
-    			label: chartname,
+    			// label: chartName,
+				padding: {
+					bottom: 100,
+				},
+				min: 0,
 				tick: {
 					format: function(x) {
-						if(chartname=='Earnings'){
-							return d3.format("$,")(x)
+						if(chartName=='Earnings'){
+							return d3.format("$s,")(x)
 						}
-						else {return d3.format(",")(x)}
+						else {return d3.format("s,")(x)}
 					}
 				}
 			},
+			y2: {
+				max: Number(this.props.filteredData[this.props.filteredData.length-1][chartNameTotal]),
+				min: Number(this.props.filteredData[0][chartNameTotal]),
+				// label: chartNameTotal,
+				padding: {
+					top: 700,
+				},
+            	show: true,
+				tick: {
+					format: function(x) {
+						if(chartName=='Earnings'){
+							return d3.format("$s,")(x)
+						}
+						else {
+							return d3.format("s,")(x)
+						}
+					}
+				}
+        	},
     	}
 
+		const tooltip = {
+			format: {
+    			value: function (value, ratio, id, index) {
+					if(chartName=='Earnings'){
+						return d3.format("$,.2fs")(value)
+					}
+					else {
+						return d3.format(",")(value)
+					}
+				}
+			}
+		}
+
 		return (
-			<C3Chart data={data} axis={axis} padding={padding} point={point} />
+			<C3Chart data={data}
+				axis={axis}
+				padding={padding}
+				point={point}
+				tooltip={tooltip}
+				zoom={zoom}
+			/>
 		)
 
 		// // RENDER EMPTY CHART

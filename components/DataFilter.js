@@ -302,9 +302,9 @@ const getVisibleData = createSelector(
 				return true;
 		})
 
-		var filteredData = $.map(filteredData, function(n,i){
-			return {date: moment(n.date).format('YYYY-MM-DD'), value: Number(n[filters.chartSelector]) };
-		});
+		// var filteredData = $.map(filteredData, function(n,i){
+		// 	return {date: moment(n.date).format('YYYY-MM-DD'), value: Number(n[filters.chartSelector]) };
+		// });
 
 		var sum = 0;
 		var date;
@@ -327,11 +327,11 @@ const getVisibleData = createSelector(
 		if(filters.chartSelector.indexOf("total_")===0) {
 	        chartname = filters.chartSelector.split("total_").pop();
 	        chartname = "total " + chartname + " as of " + filteredData[filteredData.length-1].date;
-			sum = filteredData[filteredData.length-1].value;
+			sum = Number(filteredData[filteredData.length-1][filters.chartSelector]);
 	    }
-		else{
+		else {
 			for(var i = 0, len = filteredData.length; i < len; i++) {
-		    	sum += filteredData[i].value;
+		    	sum += Number(filteredData[i][filters.chartSelector]);
 			}
 			chartname = filters.chartSelector;
 		}
